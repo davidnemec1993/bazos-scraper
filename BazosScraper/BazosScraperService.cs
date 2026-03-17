@@ -7,7 +7,7 @@ public class BazosScraperService : IDisposable
 {
     private readonly HttpClient _http;
     private const int PageSize = 20;
-    private const int RequestDelayMs = 500;
+    private const int RequestDelayMs = 600;
 
     public BazosScraperService()
     {
