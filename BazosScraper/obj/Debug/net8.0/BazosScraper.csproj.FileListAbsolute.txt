@@ -1,0 +1,17 @@
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\BazosScraper.exe
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\BazosScraper.deps.json
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\BazosScraper.runtimeconfig.json
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\BazosScraper.dll
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\BazosScraper.pdb
+C:\Users\nemec\source\repos\scraper\BazosScraper\bin\Debug\net8.0\HtmlAgilityPack.dll
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.csproj.AssemblyReference.cache
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.AssemblyInfoInputs.cache
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.AssemblyInfo.cs
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.csproj.CoreCompileInputs.cache
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScr.385D524B.Up2Date
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.dll
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\refint\BazosScraper.dll
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.pdb
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\BazosScraper.genruntimeconfig.cache
+C:\Users\nemec\source\repos\scraper\BazosScraper\obj\Debug\net8.0\ref\BazosScraper.dll
