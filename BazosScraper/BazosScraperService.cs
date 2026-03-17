@@ -34,7 +34,10 @@ public class BazosScraperService : IDisposable
     /// <summary>
     /// Fetches all pages of search results for the given site and options.
     /// </summary>
-    public async Task<List<Ad>> SearchAllPagesAsync(string baseUrl, SearchOptions options)
+    public async Task<List<Ad>> SearchAllPagesAsync(
+        string baseUrl,
+        SearchOptions options,
+        Action<string>? onProgress = null)
     {
         var allAds = new List<Ad>();
         int page = 0;
@@ -43,7 +46,7 @@ public class BazosScraperService : IDisposable
         while (true)
         {
             var url = BuildSearchUrl(baseUrl, options, page * PageSize);
-            Console.WriteLine($"  Fetching page {page + 1}: {url}");
+            onProgress?.Invoke($"Fetching page {page + 1}...");
 
             (List<Ad> pageAds, int? pageTotalCount) result;
             try
@@ -52,7 +55,7 @@ public class BazosScraperService : IDisposable
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"  Error fetching page {page + 1}: {ex.Message}");
+                onProgress?.Invoke($"Error on page {page + 1}: {ex.Message}");
                 break;
             }
 
@@ -68,7 +71,7 @@ public class BazosScraperService : IDisposable
                 break;
 
             allAds.AddRange(pageAds);
-            Console.WriteLine($"  Got {pageAds.Count} ads (total so far: {allAds.Count})");
+            onProgress?.Invoke($"Page {page + 1}: {pageAds.Count} ads (total: {allAds.Count})");
 
             // Stop when we have fetched all known ads, trimming any over-fetch
             if (totalAds.HasValue && allAds.Count >= totalAds.Value)
