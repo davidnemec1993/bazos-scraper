@@ -38,16 +38,17 @@ public class BazosScraperService : IDisposable
     {
         var allAds = new List<Ad>();
         int page = 0;
+        int? totalAds = null;
 
         while (true)
         {
             var url = BuildSearchUrl(baseUrl, options, page * PageSize);
             Console.WriteLine($"  Fetching page {page + 1}: {url}");
 
-            List<Ad> pageAds;
+            (List<Ad> pageAds, int? pageTotalCount) result;
             try
             {
-                pageAds = await FetchPageAsync(baseUrl, url);
+                result = await FetchPageAsync(baseUrl, url);
             }
             catch (Exception ex)
             {
@@ -55,11 +56,27 @@ public class BazosScraperService : IDisposable
                 break;
             }
 
+            var (pageAds, pageTotalCount) = result;
+
+            if (page == 0 && pageTotalCount.HasValue)
+            {
+                totalAds = pageTotalCount.Value;
+                Console.WriteLine($"  Total ads found: {totalAds}");
+            }
+
             if (pageAds.Count == 0)
                 break;
 
             allAds.AddRange(pageAds);
             Console.WriteLine($"  Got {pageAds.Count} ads (total so far: {allAds.Count})");
+
+            // Stop when we have fetched all known ads, trimming any over-fetch
+            if (totalAds.HasValue && allAds.Count >= totalAds.Value)
+            {
+                if (allAds.Count > totalAds.Value)
+                    allAds.RemoveRange(totalAds.Value, allAds.Count - totalAds.Value);
+                break;
+            }
 
             // If we got fewer than a full page, there's no next page
             if (pageAds.Count < PageSize)
@@ -89,7 +106,7 @@ public class BazosScraperService : IDisposable
         return $"{baseUrl}/search.php?{query}";
     }
 
-    private async Task<List<Ad>> FetchPageAsync(string baseUrl, string url)
+    private async Task<(List<Ad> ads, int? totalCount)> FetchPageAsync(string baseUrl, string url)
     {
         var response = await _http.GetAsync(url);
         response.EnsureSuccessStatusCode();
@@ -99,7 +116,19 @@ public class BazosScraperService : IDisposable
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
 
-        return ParseAds(doc, baseUrl);
+        return (ParseAds(doc, baseUrl), ParseTotalCount(doc));
+    }
+
+    private static int? ParseTotalCount(HtmlDocument doc)
+    {
+        var node = doc.DocumentNode.SelectSingleNode("//div[contains(@class,'inzeratynadpis')]");
+        if (node == null) return null;
+
+        var text = HtmlEntity.DeEntitize(node.InnerText);
+        var match = System.Text.RegularExpressions.Regex.Match(text, @"z\s+(\d+)");
+        if (!match.Success) return null;
+
+        return int.TryParse(match.Groups[1].Value, out var n) ? n : null;
     }
 
     private static List<Ad> ParseAds(HtmlDocument doc, string baseUrl)
