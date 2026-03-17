@@ -1,2 +1,0 @@
-C:\Users\nemec\source\repos\scraper\BazosScraper\publish\BazosScraper.pdb
-C:\Users\nemec\source\repos\scraper\BazosScraper\publish\BazosScraper.exe
